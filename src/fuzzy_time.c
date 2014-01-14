@@ -1,3 +1,12 @@
+/* --------------------------------------
+Radio4time Pebble watchface
+Version: 3.0
+
+http://www.cleggo.co.uk
+
+(C)TTV 2014
+-------------------------------------- */
+
 #include "pebble.h"
 #include "num2words.h"
 
