@@ -1,9 +1,9 @@
 {
-    "versionLabel": "2.0.0",
+    "versionLabel": "3.0.0",
     "uuid": "2b12fa00-758b-466f-80bf-55fad9cbaa3c",
     "appKeys": {},
-    "longName": "Radio 4 type time check",
-    "versionCode": 2,
+    "longName": "Radio 4 type time check with news",
+    "versionCode": 3,
     "capabilities": [
         ""
     ],
