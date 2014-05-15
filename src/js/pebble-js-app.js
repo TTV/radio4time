@@ -10,20 +10,20 @@ Pebble.addEventListener("appmessage", function(e) {
 	  req.onload = function(e) {
 		if (req.readyState == 4 && req.status == 200) {
 		  if(req.status == 200) {
-		    var parser = new DOMParser();
-            var xmlDoc = parser.parseFromString(req.responseText, "text/xml");
-			var items = xmlDoc.getElementsByTagName("item");
-			var title;
-			if (items.length == 0)
-				title = "No News :-(";
-		    else {
-				var titleNode = items[0].getElementsByTagName("title");
-				if (titleNode.length == 0)
-					title = "Item has no title :-(";
-				else
-					title = titleNode[0].textContent;
+		    var s = req.responseText;
+			var i = s.indexOf("<item>");
+			if (i >= 0){
+			  s = s.substr(i);
+			  i = s.indexOf("<title>");
+			  if (i >= 0){
+			    s = s.substr(i+7);
+				i = s.indexOf("<");
+			    if (i >= 0){
+			      s = s.substr(0, i);
+			      Pebble.sendAppMessage({"0": method, "1": s});
+				}
+			  }
 			}
-			Pebble.sendAppMessage({"0": method, "1": title});
 		  } else {
 			console.log("Error");
 		  }

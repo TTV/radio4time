@@ -1,65 +1,65 @@
 {
-    "versionLabel": "3.0.0",
-    "uuid": "2b12fa00-758b-466f-80bf-55fad9cbaa3c",
-    "appKeys": {},
-    "longName": "Radio 4 type time check with news",
-    "versionCode": 3,
-    "capabilities": [
-        ""
-    ],
-    "shortName": "Radio4 Time",
-    "companyName": "John Clegg",
+    "versionLabel": "3.0.1",
     "watchapp": {
         "watchface": true
     },
+    "capabilities": [
+        ""
+    ],
+    "appKeys": {},
+    "longName": "Radio 4 type time check with news",
+    "shortName": "Radio4 Time",
     "resources": {
         "media": [
             {
-                "type": "png",
-                "name": "IMAGE_BATTERY_C",
-                "file": "images/battery_c.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_5",
-                "file": "images/battery_5.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_4",
-                "file": "images/battery_4.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_3",
-                "file": "images/battery_3.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_2",
-                "file": "images/battery_2.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_BATTERY_1",
-                "file": "images/battery_1.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_DISCONNECTED",
-                "file": "images/disconnected.png"
-            },
-            {
-                "type": "png",
-                "name": "IMAGE_CONNECTED",
-                "file": "images/connected.png"
-            },
-            {
                 "menuIcon": true,
+                "file": "images/menu_icon_fuzzy_watch.png",
                 "type": "png",
-                "name": "IMAGE_MENU_ICON",
-                "file": "images/menu_icon_fuzzy_watch.png"
+                "name": "IMAGE_MENU_ICON"
+            },
+            {
+                "file": "images/connected.png",
+                "type": "png",
+                "name": "IMAGE_CONNECTED"
+            },
+            {
+                "file": "images/disconnected.png",
+                "type": "png",
+                "name": "IMAGE_DISCONNECTED"
+            },
+            {
+                "file": "images/battery_1.png",
+                "type": "png",
+                "name": "IMAGE_BATTERY_1"
+            },
+            {
+                "file": "images/battery_2.png",
+                "type": "png",
+                "name": "IMAGE_BATTERY_2"
+            },
+            {
+                "file": "images/battery_3.png",
+                "type": "png",
+                "name": "IMAGE_BATTERY_3"
+            },
+            {
+                "file": "images/battery_4.png",
+                "type": "png",
+                "name": "IMAGE_BATTERY_4"
+            },
+            {
+                "file": "images/battery_5.png",
+                "type": "png",
+                "name": "IMAGE_BATTERY_5"
+            },
+            {
+                "file": "images/battery_c.png",
+                "type": "png",
+                "name": "IMAGE_BATTERY_C"
             }
         ]
-    }
+    },
+    "versionCode": 4,
+    "companyName": "John Clegg",
+    "uuid": "2b12fa00-758b-466f-80bf-55fad9cbaa3c"
 }

@@ -9,6 +9,7 @@ http://www.cleggo.co.uk
 
 #include "pebble.h"
 #include "num2words.h"
+#include "oblique.h"
 
 #define BUFFER_SIZE 86
 
