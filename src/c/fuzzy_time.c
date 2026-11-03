@@ -123,7 +123,7 @@ static void update_time(struct tm *t) {
   if (offset < 0)
     offset = 0;
   layer_set_frame(text_layer_get_layer(s_data.label_1), GRect(s_header.origin.x, s_header.origin.y + offset, s_header.size.w, s_header.size.h));
-  layer_set_frame(text_layer_get_layer(s_data.label_2), GRect(s_words.origin.x, s_words.origin.y + offset, s_words.size.w, s_words.size.h - offset));
+  layer_set_frame(text_layer_get_layer(s_data.label_2), grect_inset(s_words, GEdgeInsets(offset, 0, 0, 0)));
 #endif
 
   char *date = s_data.dBuffer;
