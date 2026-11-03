@@ -24,6 +24,9 @@ enum {
 };
 
 bool refetch_story = false;
+#if defined(PBL_ROUND)
+static GRect s_header, s_words;
+#endif
 
 static struct CommonWordsData {
   TextLayer *label_1, *label_2, *label_3, *news_layer;
@@ -66,7 +69,7 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
   // APP_LOG(APP_LOG_LEVEL_DEBUG, "Method : %s", method_tuple->value->cstring);	
 	
   if (strcmp(method_tuple->value->cstring, "ready") == 0)
-	  refetch_story = true; // first msg fails so re-fetch on the fail handler
+	  fetch_story();
   else if (strcmp(method_tuple->value->cstring, "story") == 0) {
 	  Tuple *title_tuple = dict_find(iter, TTVNEWS_TITLE);
 	  if (title_tuple)
@@ -114,6 +117,14 @@ static void update_time(struct tm *t) {
   fuzzy_time_to_words(t->tm_hour, t->tm_min, s_data.hBuffer, BUFFER_SIZE, s_data.buffer, BUFFER_SIZE);
   text_layer_set_text(s_data.label_1, s_data.hBuffer);
   text_layer_set_text(s_data.label_2, s_data.buffer);
+#if defined(PBL_ROUND)
+  layer_set_frame(text_layer_get_layer(s_data.label_2), s_words);
+  int16_t offset = (s_words.size.h - text_layer_get_content_size(s_data.label_2).h) / 2;
+  if (offset < 0)
+    offset = 0;
+  layer_set_frame(text_layer_get_layer(s_data.label_1), GRect(s_header.origin.x, s_header.origin.y + offset, s_header.size.w, s_header.size.h));
+  layer_set_frame(text_layer_get_layer(s_data.label_2), grect_inset(s_words, GEdgeInsets(offset, 0, 0, 0)));
+#endif
 
   char *date = s_data.dBuffer;
   size_t remaining = BUFFER_SIZE;
@@ -172,40 +183,76 @@ static void do_init(void) {
 	
   Layer *root_layer = window_get_root_layer(s_data.window);
   GRect frame = layer_get_frame(root_layer);
+#if defined(PBL_ROUND)
+#if defined(PBL_PLATFORM_CHALK)
+  font_s = fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD);
+  int16_t row = 22, news_h = 18;
+#else
+  int16_t row = 28, news_h = 34;
+#endif
+  int16_t words_h = 95 + 56 * (frame.size.h - 168) / 168;
+  int16_t top = (frame.size.h - (2 * row + words_h + news_h)) / 2;
+  int16_t icon_x = ((frame.size.w - 144) / 2 - 16) / 2;
+  if (icon_x < 2)
+    icon_x = 2;
+  GRect header = s_header = GRect(0, top, frame.size.w, row);
+  GRect words = s_words = GRect((frame.size.w - 144) / 2, top + row, 144, words_h);
+  GRect date = GRect(0, top + row + words_h, frame.size.w, row);
+  GRect news = GRect(0, date.origin.y + row, frame.size.w, news_h);
+  GRect battery = GRect(icon_x, (frame.size.h - 9) / 2, 16, 9);
+  GRect connection = GRect(frame.size.w - 13 - icon_x, (frame.size.h - 21) / 2, 13, 21);
+#else
+  int16_t news_y = frame.size.h - (frame.size.h > 168 ? 34 : 15);
+  int16_t date_y = news_y - 30;
+  GRect header = GRect(0, 0, frame.size.w, 28);
+  GRect words = GRect(0, 28 * frame.size.h / 168, 144, 95);
+  GRect date = GRect(0, date_y, frame.size.w, 28);
+  GRect news = GRect(0, news_y, frame.size.w, frame.size.h - news_y);
+  GRect battery = GRect(frame.size.w - 16, 14, 16, 9);
+  GRect connection = GRect(frame.size.w - 13, date_y + 7, 13, 21);
+#endif
 
-  s_data.label_1 = text_layer_create(GRect(0, 0, frame.size.w, 28));
+  s_data.label_1 = text_layer_create(header);
   text_layer_set_background_color(s_data.label_1, GColorBlack);
   text_layer_set_text_color(s_data.label_1, GColorWhite);
   text_layer_set_font(s_data.label_1, font_s);
+  text_layer_set_text_alignment(s_data.label_1, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentLeft));
   layer_add_child(root_layer, text_layer_get_layer(s_data.label_1));
 	
-  s_data.label_2 = text_layer_create(GRect(0, 28, frame.size.w, 95));
+  s_data.label_2 = text_layer_create(words);
   text_layer_set_background_color(s_data.label_2, GColorBlack);
   text_layer_set_text_color(s_data.label_2, GColorWhite);
   text_layer_set_font(s_data.label_2, font_l);
+  text_layer_set_text_alignment(s_data.label_2, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentLeft));
   layer_add_child(root_layer, text_layer_get_layer(s_data.label_2));
 
-  s_data.label_3 = text_layer_create(GRect(0, 123, frame.size.w, 28));
+  s_data.label_3 = text_layer_create(date);
   text_layer_set_background_color(s_data.label_3, GColorBlack);
   text_layer_set_text_color(s_data.label_3, GColorWhite);
   text_layer_set_font(s_data.label_3, font_s);
+  text_layer_set_text_alignment(s_data.label_3, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentLeft));
   layer_add_child(root_layer, text_layer_get_layer(s_data.label_3));
 
-  s_data.battery_layer = bitmap_layer_create(GRect(frame.size.w - 16, 14, 16, 9));
+  s_data.battery_layer = bitmap_layer_create(battery);
   bitmap_layer_set_bitmap(s_data.battery_layer, s_data.image_battery_c);
   bitmap_layer_set_alignment(s_data.battery_layer, GAlignTopRight);
   layer_add_child(root_layer, bitmap_layer_get_layer(s_data.battery_layer));
 
-  s_data.connection_layer = bitmap_layer_create(GRect(frame.size.w - 13, 130, 13, 21));
+  s_data.connection_layer = bitmap_layer_create(connection);
   bitmap_layer_set_bitmap(s_data.connection_layer, s_data.image_dis);
   bitmap_layer_set_alignment(s_data.connection_layer, GAlignBottomRight);
   layer_add_child(root_layer, bitmap_layer_get_layer(s_data.connection_layer));
 
-  s_data.news_layer = text_layer_create(GRect(0, 153, frame.size.w, frame.size.h - 153));
+  s_data.news_layer = text_layer_create(news);
   text_layer_set_background_color(s_data.news_layer, GColorBlack);
   text_layer_set_text_color(s_data.news_layer, GColorWhite);
   text_layer_set_font(s_data.news_layer, font_t);
+  text_layer_set_text_alignment(s_data.news_layer, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentLeft));
   layer_add_child(root_layer, text_layer_get_layer(s_data.news_layer));	
+  text_layer_set_overflow_mode(s_data.news_layer, GTextOverflowModeTrailingEllipsis);
+#if defined(PBL_ROUND)
+  text_layer_enable_screen_text_flow_and_paging(s_data.news_layer, 4);
+#endif
 
   snprintf(s_data.newsBuffer, 255, "BBC News");	
 	
@@ -220,9 +267,7 @@ static void do_init(void) {
   app_message_register_inbox_received(in_received_handler);
   app_message_register_outbox_failed(out_failed_handler);
 
-  app_message_open(64, 64);
-
-  fetch_story();
+  app_message_open(256, 64);
 }
 
 static void do_deinit(void) {

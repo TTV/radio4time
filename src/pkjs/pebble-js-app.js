@@ -6,7 +6,7 @@ Pebble.addEventListener("appmessage", function(e) {
 	var method = e.payload["0"];
 	if (method == "story"){
 	  var req = new XMLHttpRequest();
-	  req.open('GET', 'http://feeds.bbci.co.uk/news/rss.xml?edition=uk', true);
+	  req.open('GET', 'https://feeds.bbci.co.uk/news/rss.xml?edition=uk', true);
 	  req.onload = function(e) {
 		if (req.readyState == 4 && req.status == 200) {
 		  if(req.status == 200) {
@@ -17,9 +17,9 @@ Pebble.addEventListener("appmessage", function(e) {
 			  i = s.indexOf("<title>");
 			  if (i >= 0){
 			    s = s.substr(i+7);
-				i = s.indexOf("<");
+				i = s.indexOf("</title>");
 			    if (i >= 0){
-			      s = s.substr(0, i);
+			      s = s.substr(0, i).replace(/^<!\[CDATA\[|\]\]>$/g, "").substr(0, 70);
 			      Pebble.sendAppMessage({"0": method, "1": s});
 				}
 			  }
