@@ -17,14 +17,9 @@ Pebble.addEventListener("appmessage", function(e) {
 			  i = s.indexOf("<title>");
 			  if (i >= 0){
 			    s = s.substr(i+7);
-				var end = "<";
-				if (s.indexOf("<![CDATA[") == 0) {
-				  s = s.substr(9);
-				  end = "]]>";
-				}
-				i = s.indexOf(end);
+				i = s.indexOf("</title>");
 			    if (i >= 0){
-			      s = s.substr(0, Math.min(i, 70));
+			      s = s.substr(0, i).replace(/^<!\[CDATA\[|\]\]>$/g, "").substr(0, 70);
 			      Pebble.sendAppMessage({"0": method, "1": s});
 				}
 			  }
