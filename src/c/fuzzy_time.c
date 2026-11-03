@@ -195,10 +195,8 @@ static void do_init(void) {
   int16_t icon_x = ((frame.size.w - 144) / 2 - 16) / 2;
   if (icon_x < 2)
     icon_x = 2;
-  s_header = GRect(0, top, frame.size.w, row);
-  GRect header = s_header;
-  s_words = GRect((frame.size.w - 144) / 2, top + row, 144, 95 + 2 * gap);
-  GRect words = s_words;
+  GRect header = s_header = GRect(0, top, frame.size.w, row);
+  GRect words = s_words = GRect((frame.size.w - 144) / 2, top + row, 144, 95 + 2 * gap);
   GRect date = GRect(0, top + row + 95 + 2 * gap, frame.size.w, row);
   GRect news = GRect(0, date.origin.y + row, frame.size.w, news_h);
   GRect battery = GRect(icon_x, (frame.size.h - 9) / 2, 16, 9);
