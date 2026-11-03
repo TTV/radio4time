@@ -1,0 +1,68 @@
+{
+    "author": "John Clegg",
+    "dependencies": {},
+    "keywords": [],
+    "name": "radio4-time",
+    "pebble": {
+        "displayName": "Radio4 Time",
+        "enableMultiJS": false,
+        "messageKeys": {},
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/menu_icon_fuzzy_watch.png",
+                    "menuIcon": true,
+                    "name": "IMAGE_MENU_ICON",
+                    "type": "png"
+                },
+                {
+                    "file": "images/connected.png",
+                    "name": "IMAGE_CONNECTED",
+                    "type": "png"
+                },
+                {
+                    "file": "images/disconnected.png",
+                    "name": "IMAGE_DISCONNECTED",
+                    "type": "png"
+                },
+                {
+                    "file": "images/battery_1.png",
+                    "name": "IMAGE_BATTERY_1",
+                    "type": "png"
+                },
+                {
+                    "file": "images/battery_2.png",
+                    "name": "IMAGE_BATTERY_2",
+                    "type": "png"
+                },
+                {
+                    "file": "images/battery_3.png",
+                    "name": "IMAGE_BATTERY_3",
+                    "type": "png"
+                },
+                {
+                    "file": "images/battery_4.png",
+                    "name": "IMAGE_BATTERY_4",
+                    "type": "png"
+                },
+                {
+                    "file": "images/battery_5.png",
+                    "name": "IMAGE_BATTERY_5",
+                    "type": "png"
+                },
+                {
+                    "file": "images/battery_c.png",
+                    "name": "IMAGE_BATTERY_C",
+                    "type": "png"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "uuid": "2b12fa00-758b-466f-80bf-55fad9cbaa3c",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "3.0.1"
+}
