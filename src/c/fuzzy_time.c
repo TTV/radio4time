@@ -66,7 +66,7 @@ static void in_received_handler(DictionaryIterator *iter, void *context) {
   // APP_LOG(APP_LOG_LEVEL_DEBUG, "Method : %s", method_tuple->value->cstring);	
 	
   if (strcmp(method_tuple->value->cstring, "ready") == 0)
-	  refetch_story = true; // first msg fails so re-fetch on the fail handler
+	  fetch_story();
   else if (strcmp(method_tuple->value->cstring, "story") == 0) {
 	  Tuple *title_tuple = dict_find(iter, TTVNEWS_TITLE);
 	  if (title_tuple)
@@ -220,9 +220,7 @@ static void do_init(void) {
   app_message_register_inbox_received(in_received_handler);
   app_message_register_outbox_failed(out_failed_handler);
 
-  app_message_open(64, 64);
-
-  fetch_story();
+  app_message_open(256, 64);
 }
 
 static void do_deinit(void) {
